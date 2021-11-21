@@ -28,7 +28,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-@Mod(modid = "IronChest", name = "Iron Chests", dependencies = "required-after:Forge@[10.10,);required-after:FML@[7.2,)")
+@Mod(modid = "IronChest", name = "Iron Chests", version = IronChest.VERSION, dependencies = "required-after:Forge@[10.10,);required-after:FML@[7.2,)")
 public class IronChest {
     public static BlockIronChest ironChestBlock;
     @SidedProxy(clientSide = "cpw.mods.ironchest.client.ClientProxy", serverSide = "cpw.mods.ironchest.CommonProxy")
@@ -37,12 +37,11 @@ public class IronChest {
     public static IronChest instance;
     public static boolean CACHE_RENDER = true;
     public static boolean OCELOTS_SITONCHESTS = true;
+    public static final String VERSION = "GRADLETOKEN_VERSION";
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
-        Version.init(event.getVersionProperties());
-        event.getModMetadata().version = Version.fullVersionString();
         Configuration cfg = new Configuration(event.getSuggestedConfigurationFile());
         try
         {
