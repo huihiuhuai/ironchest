@@ -10,7 +10,9 @@
  ******************************************************************************/
 package cpw.mods.ironchest;
 
+import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.oredict.OreDictionary;
@@ -25,6 +27,7 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLMissingMappingsEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -69,7 +72,11 @@ public class IronChest {
     {
         for (IronChestType typ : IronChestType.values())
         {
-            GameRegistry.registerTileEntityWithAlternatives(typ.clazz, "IronChest."+typ.name(), typ.name());
+            if(typ.name().equals("STEEL")) {
+                GameRegistry.registerTileEntityWithAlternatives(typ.clazz, "IronChest." + typ.name(), typ.name(), "SILVER", "IronChest.SILVER");
+            } else {
+                GameRegistry.registerTileEntityWithAlternatives(typ.clazz, "IronChest." + typ.name(), typ.name());
+            }
             proxy.registerTileEntitySpecialRenderer(typ);
         }
         OreDictionary.registerOre("chestWood", Blocks.chest);
@@ -89,4 +96,31 @@ public class IronChest {
     {
     }
 
+    //cpw.mods.fml.common.registry.GameRegistry#registerTileEntityWithAlternatives
+    @Mod.EventHandler
+    public void missingMapping(FMLMissingMappingsEvent event) {
+        for (FMLMissingMappingsEvent.MissingMapping mapping : event.getAll()) {
+            if (mapping.type == GameRegistry.Type.BLOCK) {
+                switch (mapping.name) {
+                    case "IronChest:copperSilverUpgrade":
+                        mapping.remap(GameRegistry.findBlock("IronChest", "copperSteelUpgrade"));
+                        break;
+                    case "IronChest:silverGoldUpgrade":
+                        mapping.remap(GameRegistry.findBlock("IronChest", "steelGoldUpgrade"));
+                        break;
+                    default:
+                    }
+            } else if (mapping.type == GameRegistry.Type.ITEM) {
+                switch (mapping.name) {
+                    case "IronChest:copperSilverUpgrade":
+                        mapping.remap(GameRegistry.findItem("IronChest", "copperSteelUpgrade"));
+                        break;
+                    case "IronChest:silverGoldUpgrade":
+                        mapping.remap(GameRegistry.findItem("IronChest", "steelGoldUpgrade"));
+                        break;
+                    default:
+                }
+            }
+        }
+    }
 }
