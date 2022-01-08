@@ -2,16 +2,24 @@ tile.ironchest:IRON.name=Железный сундук
 tile.ironchest:GOLD.name=Золотой сундук
 tile.ironchest:DIAMOND.name=Алмазный сундук
 tile.ironchest:COPPER.name=Медный сундук
-tile.ironchest:STEEL.name=Серебряный сундук
+tile.ironchest:STEEL.name=Стальной сундук
 tile.ironchest:CRYSTAL.name=Кристальный сундук
 tile.ironchest:OBSIDIAN.name=Обсидиановый сундук
+tile.ironchest:DIRTCHEST9000.name=DirtChest 9000!
 
 item.ironchest:IRONGOLD.name=Улучшение из железного в золотой сундук
 item.ironchest:GOLDDIAMOND.name=Улучшение из золотого в алмазный сундук
 item.ironchest:COPPERSTEEL.name=Улучшение из медного в серебряный сундук
-item.ironchest:STEELGOLD.name=Улучшение из серебряного в золотой сундук
+item.ironchest:STEELGOLD.name=Улучшение из стального в золотой сундук
 item.ironchest:COPPERIRON.name=Улучшение из медного в железный сундук
 item.ironchest:DIAMONDCRYSTAL.name=Улучшение из алмазного в кристальный сундук
 item.ironchest:WOODIRON.name=Улучшение из деревянного в железный сундук
 item.ironchest:WOODCOPPER.name=Улучшение из деревянного в медный сундук
 item.ironchest:DIAMONDOBSIDIAN.name=Улучшение из алмазного в обсидиановый сундук
+
+book.ironchest:dirtchest9000.title=How to use your DirtChest 9000!
+book.ironchest:dirtchest9000.page1=Добро пожаловать на ваш новый Dirtchest 9000! Мы надеемся, что вы будете наслаждаться многими счастливыми годами хранения вашей стопки грязи в нашей утилите хранения.
+book.ironchest:dirtchest9000.page2=Использование: просто вставьте стопку грязи на ваш выбор в очень восприимчивый слот и наслаждайтесь большим удобством того, чтобы доступен для вас грязь, в любое время, когда вы проходите к этому сундуку!
+book.ironchest:dirtchest9000.page3=Мы надеемся, что вам понравилось просмотреть эту инструкцию по эксплуатации и надеюсь, что вы будете рассмотреть возможность использования наших продуктов в будущем! Добрые пожелания, включены ручные писатели TryChest 9000.
+book.ironchest:dirtchest9000.page4=Гарантия: этот продукт не имеет гарантии любого рода. Ваша грязь не может быть сохранена, она может медленно пиявить в окружающую среду, или, альтернативно, это может ничего вообще ничего не делать.
+book.ironchest:dirtchest9000.page5=Dirtchest 9000 добр к окружающей среде. Пожалуйста, избавьтесь от этого руководства книги ответственно, и не то, что вы просто забивают его в какую-то лаву. Мы были бы очень грустными.
