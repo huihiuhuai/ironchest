@@ -1,5 +1,5 @@
 // Add your dependencies here
 
 dependencies {
-    compileOnly("com.github.GTNewHorizons:inventory-tweaks:master-SNAPSHOT:api")
+    compileOnly("com.github.GTNewHorizons:inventory-tweaks:1.5.13:api")
 }
