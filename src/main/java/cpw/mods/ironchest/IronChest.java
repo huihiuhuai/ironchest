@@ -41,6 +41,8 @@ public class IronChest {
     public static boolean CACHE_RENDER = true;
     public static boolean OCELOTS_SITONCHESTS = true;
     public static final String VERSION = "GRADLETOKEN_VERSION";
+    public static boolean TRANSPARENT_RENDER_INSIDE = true;
+    public static double TRANSPARENT_RENDER_DISTANCE = 128D;
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
@@ -52,6 +54,8 @@ public class IronChest {
             ChestChangerType.buildItems(cfg);
             CACHE_RENDER = cfg.get(Configuration.CATEGORY_GENERAL, "cacheRenderingInformation", true).getBoolean(true);
             OCELOTS_SITONCHESTS = cfg.get(Configuration.CATEGORY_GENERAL, "ocelotsSitOnChests", true).getBoolean(true);
+            TRANSPARENT_RENDER_INSIDE = cfg.get("general", "transparentRenderInside", true).getBoolean(true);
+            TRANSPARENT_RENDER_DISTANCE = cfg.get("general", "transparentRenderDistance", 128D).getDouble(128D);
         }
         catch (Exception e)
         {
