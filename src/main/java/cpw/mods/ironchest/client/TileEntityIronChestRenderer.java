@@ -33,6 +33,7 @@ import net.minecraft.util.ResourceLocation;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMap.Builder;
 import com.google.common.primitives.SignedBytes;
+import cpw.mods.ironchest.IronChest;
 import cpw.mods.ironchest.IronChestType;
 import cpw.mods.ironchest.MappableItemStackWrapper;
 import cpw.mods.ironchest.TileEntityIronChest;
@@ -125,7 +126,7 @@ public class TileEntityIronChestRenderer extends TileEntitySpecialRenderer {
         glDisable(32826 /* GL_RESCALE_NORMAL_EXT */);
         glPopMatrix();
         glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        if (type.isTransparent() && tile.getDistanceFrom(this.field_147501_a.field_147560_j, this.field_147501_a.field_147561_k, this.field_147501_a.field_147558_l) < 128d) {
+        if ((IronChest.TRANSPARENT_RENDER_INSIDE) && (type.isTransparent()) && (tile.getDistanceFrom(this.field_147501_a.field_147560_j, this.field_147501_a.field_147561_k, this.field_147501_a.field_147558_l) < IronChest.TRANSPARENT_RENDER_DISTANCE)) {
             random.setSeed(254L);
             float shiftX;
             float shiftY;
