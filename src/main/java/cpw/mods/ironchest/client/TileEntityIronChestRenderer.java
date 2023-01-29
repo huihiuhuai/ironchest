@@ -1,12 +1,9 @@
 /*******************************************************************************
- * Copyright (c) 2012 cpw.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Public License v3.0
- * which accompanies this distribution, and is available at
+ * Copyright (c) 2012 cpw. All rights reserved. This program and the accompanying materials are made available under the
+ * terms of the GNU Public License v3.0 which accompanies this distribution, and is available at
  * http://www.gnu.org/licenses/gpl.html
  *
- * Contributors:
- * cpw - initial API and implementation
+ * Contributors: cpw - initial API and implementation
  ******************************************************************************/
 package cpw.mods.ironchest.client;
 
@@ -18,9 +15,11 @@ import static org.lwjgl.opengl.GL11.glPushMatrix;
 import static org.lwjgl.opengl.GL11.glRotatef;
 import static org.lwjgl.opengl.GL11.glScalef;
 import static org.lwjgl.opengl.GL11.glTranslatef;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+
 import net.minecraft.client.model.ModelChest;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.entity.RenderItem;
@@ -30,23 +29,26 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMap.Builder;
 import com.google.common.primitives.SignedBytes;
+
 import cpw.mods.ironchest.IronChest;
 import cpw.mods.ironchest.IronChestType;
 import cpw.mods.ironchest.MappableItemStackWrapper;
 import cpw.mods.ironchest.TileEntityIronChest;
 
 public class TileEntityIronChestRenderer extends TileEntitySpecialRenderer {
+
     @SuppressWarnings("unused")
     private static final Map<MappableItemStackWrapper, Integer> renderList = new HashMap<MappableItemStackWrapper, Integer>();
 
     private static final Map<IronChestType, ResourceLocation> locations;
     static {
-        Builder<IronChestType, ResourceLocation> builder = ImmutableMap.<IronChestType,ResourceLocation>builder();
+        Builder<IronChestType, ResourceLocation> builder = ImmutableMap.<IronChestType, ResourceLocation>builder();
         for (IronChestType typ : IronChestType.values()) {
-            builder.put(typ, new ResourceLocation("ironchest","textures/model/"+typ.getModelTexture()));
+            builder.put(typ, new ResourceLocation("ironchest", "textures/model/" + typ.getModelTexture()));
         }
         locations = builder.build();
     }
@@ -54,27 +56,31 @@ public class TileEntityIronChestRenderer extends TileEntitySpecialRenderer {
 
     private final RenderItem itemRenderer;
 
-    private static final float[][] shifts = { { 0.3F, 0.45F, 0.3F }, { 0.7F, 0.45F, 0.3F }, { 0.3F, 0.45F, 0.7F }, { 0.7F, 0.45F, 0.7F }, { 0.3F, 0.1F, 0.3F },
-            { 0.7F, 0.1F, 0.3F }, { 0.3F, 0.1F, 0.7F }, { 0.7F, 0.1F, 0.7F }, { 0.5F, 0.32F, 0.5F }, };
+    private static final float[][] shifts = { { 0.3F, 0.45F, 0.3F }, { 0.7F, 0.45F, 0.3F }, { 0.3F, 0.45F, 0.7F },
+            { 0.7F, 0.45F, 0.7F }, { 0.3F, 0.1F, 0.3F }, { 0.7F, 0.1F, 0.3F }, { 0.3F, 0.1F, 0.7F },
+            { 0.7F, 0.1F, 0.7F }, { 0.5F, 0.32F, 0.5F }, };
 
-    public TileEntityIronChestRenderer()
-    {
+    public TileEntityIronChestRenderer() {
         model = new ModelChest();
         random = new Random();
         RenderBlocks renderBlocks = new RenderBlocks();
         itemRenderer = new RenderItem() {
+
             @Override
             public byte getMiniBlockCount(ItemStack stack, byte original) {
                 return SignedBytes.saturatedCast(Math.min(stack.stackSize / 32, 15) + 1);
             }
+
             @Override
             public byte getMiniItemCount(ItemStack stack, byte original) {
                 return SignedBytes.saturatedCast(Math.min(stack.stackSize / 32, 7) + 1);
             }
+
             @Override
             public boolean shouldBob() {
                 return false;
             }
+
             @Override
             public boolean shouldSpreadItems() {
                 return false;
@@ -126,7 +132,11 @@ public class TileEntityIronChestRenderer extends TileEntitySpecialRenderer {
         glDisable(32826 /* GL_RESCALE_NORMAL_EXT */);
         glPopMatrix();
         glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        if ((IronChest.TRANSPARENT_RENDER_INSIDE) && (type.isTransparent()) && (tile.getDistanceFrom(this.field_147501_a.field_147560_j, this.field_147501_a.field_147561_k, this.field_147501_a.field_147558_l) < IronChest.TRANSPARENT_RENDER_DISTANCE)) {
+        if ((IronChest.TRANSPARENT_RENDER_INSIDE) && (type.isTransparent())
+                && (tile.getDistanceFrom(
+                        this.field_147501_a.field_147560_j,
+                        this.field_147501_a.field_147561_k,
+                        this.field_147501_a.field_147558_l) < IronChest.TRANSPARENT_RENDER_DISTANCE)) {
             random.setSeed(254L);
             float shiftX;
             float shiftY;
@@ -170,8 +180,7 @@ public class TileEntityIronChestRenderer extends TileEntitySpecialRenderer {
     }
 
     @Override
-    public void renderTileEntityAt(TileEntity tileentity, double x, double y, double z, float partialTick)
-    {
+    public void renderTileEntityAt(TileEntity tileentity, double x, double y, double z, float partialTick) {
         render((TileEntityIronChest) tileentity, x, y, z, partialTick);
     }
 

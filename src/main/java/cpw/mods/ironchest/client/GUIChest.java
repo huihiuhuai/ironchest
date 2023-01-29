@@ -1,12 +1,9 @@
 /*******************************************************************************
- * Copyright (c) 2012 cpw.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Public License v3.0
- * which accompanies this distribution, and is available at
+ * Copyright (c) 2012 cpw. All rights reserved. This program and the accompanying materials are made available under the
+ * terms of the GNU Public License v3.0 which accompanies this distribution, and is available at
  * http://www.gnu.org/licenses/gpl.html
  *
- * Contributors:
- *     cpw - initial API and implementation
+ * Contributors: cpw - initial API and implementation
  ******************************************************************************/
 package cpw.mods.ironchest.client;
 
@@ -22,19 +19,25 @@ import cpw.mods.ironchest.IronChestType;
 import cpw.mods.ironchest.TileEntityIronChest;
 
 public class GUIChest extends GuiContainer {
+
     public enum ResourceList {
+
         IRON(new ResourceLocation("ironchest", "textures/gui/ironcontainer.png")),
         COPPER(new ResourceLocation("ironchest", "textures/gui/coppercontainer.png")),
         STEEL(new ResourceLocation("ironchest", "textures/gui/silvercontainer.png")),
         GOLD(new ResourceLocation("ironchest", "textures/gui/goldcontainer.png")),
         DIAMOND(new ResourceLocation("ironchest", "textures/gui/diamondcontainer.png")),
         DIRT(new ResourceLocation("ironchest", "textures/gui/dirtcontainer.png"));
+
         public final ResourceLocation location;
+
         private ResourceList(ResourceLocation loc) {
             this.location = loc;
         }
     }
+
     public enum GUI {
+
         IRON(184, 202, ResourceList.IRON, IronChestType.IRON),
         GOLD(184, 256, ResourceList.GOLD, IronChestType.GOLD),
         DIAMOND(238, 256, ResourceList.DIAMOND, IronChestType.DIAMOND),
@@ -49,8 +52,7 @@ public class GUIChest extends GuiContainer {
         private final ResourceList guiResourceList;
         private final IronChestType mainType;
 
-        private GUI(int xSize, int ySize, ResourceList guiResourceList, IronChestType mainType)
-        {
+        private GUI(int xSize, int ySize, ResourceList guiResourceList, IronChestType mainType) {
             this.xSize = xSize;
             this.ySize = ySize;
             this.guiResourceList = guiResourceList;
@@ -58,26 +60,23 @@ public class GUIChest extends GuiContainer {
 
         }
 
-        protected Container makeContainer(IInventory player, IInventory chest)
-        {
+        protected Container makeContainer(IInventory player, IInventory chest) {
             return new ContainerIronChest(player, chest, mainType, xSize, ySize);
         }
 
-        public static GUIChest buildGUI(IronChestType type, IInventory playerInventory, TileEntityIronChest chestInventory)
-        {
+        public static GUIChest buildGUI(IronChestType type, IInventory playerInventory,
+                TileEntityIronChest chestInventory) {
             return new GUIChest(values()[chestInventory.getType().ordinal()], playerInventory, chestInventory);
         }
     }
 
-    public int getRowLength()
-    {
+    public int getRowLength() {
         return type.mainType.getRowLength();
     }
 
     private final GUI type;
 
-    private GUIChest(GUI type, IInventory player, IInventory chest)
-    {
+    private GUIChest(GUI type, IInventory player, IInventory chest) {
         super(type.makeContainer(player, chest));
         this.type = type;
         this.xSize = type.xSize;
@@ -86,8 +85,7 @@ public class GUIChest extends GuiContainer {
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(float f, int i, int j)
-    {
+    protected void drawGuiContainerBackgroundLayer(float f, int i, int j) {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         // new "bind tex"
         this.mc.getTextureManager().bindTexture(type.guiResourceList.location);

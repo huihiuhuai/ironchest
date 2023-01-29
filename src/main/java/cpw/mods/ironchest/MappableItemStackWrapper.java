@@ -3,31 +3,26 @@ package cpw.mods.ironchest;
 import net.minecraft.item.ItemStack;
 
 public class MappableItemStackWrapper {
+
     private final ItemStack wrap;
 
-    public MappableItemStackWrapper(ItemStack toWrap)
-    {
+    public MappableItemStackWrapper(ItemStack toWrap) {
         wrap = toWrap;
     }
 
     @Override
-    public boolean equals(Object obj)
-    {
+    public boolean equals(Object obj) {
         if (!(obj instanceof MappableItemStackWrapper)) return false;
         MappableItemStackWrapper isw = (MappableItemStackWrapper) obj;
-        if (wrap.getHasSubtypes())
-        {
+        if (wrap.getHasSubtypes()) {
             return isw.wrap.isItemEqual(wrap);
-        }
-        else
-        {
+        } else {
             return isw.wrap == wrap;
         }
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         return System.identityHashCode(wrap);
     }
 }
