@@ -16,8 +16,11 @@ import static cpw.mods.ironchest.IronChestType.OBSIDIAN;
 import static cpw.mods.ironchest.IronChestType.STEEL;
 import static cpw.mods.ironchest.IronChestType.WOOD;
 
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.config.Configuration;
 
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public enum ChestChangerType {
@@ -64,7 +67,17 @@ public enum ChestChangerType {
     }
 
     public void addRecipes() {
-
+        for (String sourceMat : source.getMatList()) {
+            for (String targetMat : target.getMatList()) {
+                Object targetMaterial = IronChestType.translateOreName(targetMat);
+                Object sourceMaterial = IronChestType.translateOreName(sourceMat);
+                // spotless:off
+                IronChestType.addRecipe(new ItemStack(item), recipe,
+                        'm', targetMaterial, 's', sourceMaterial,
+                        'G', Blocks.glass, 'O', Blocks.obsidian);
+                // spotless:on
+            }
+        }
     }
 
     public static void buildItems(Configuration cfg) {
@@ -74,6 +87,9 @@ public enum ChestChangerType {
     }
 
     public static void generateRecipes() {
+        if (Loader.isModLoaded("dreamcraft")) {
+            return;
+        }
         for (ChestChangerType item : values()) {
             item.addRecipes();
         }
