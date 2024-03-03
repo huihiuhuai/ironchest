@@ -8,6 +8,7 @@
 package cpw.mods.ironchest.client;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;
@@ -27,6 +28,8 @@ public class GUIChest extends GuiContainer {
         STEEL(new ResourceLocation("ironchest", "textures/gui/silvercontainer.png")),
         GOLD(new ResourceLocation("ironchest", "textures/gui/goldcontainer.png")),
         DIAMOND(new ResourceLocation("ironchest", "textures/gui/diamondcontainer.png")),
+        NETHERITE(new ResourceLocation("ironchest", "textures/gui/netheritecontainer.png")),
+        DARKSTEEL(new ResourceLocation("ironchest", "textures/gui/netheritecontainer.png")),
         DIRT(new ResourceLocation("ironchest", "textures/gui/dirtcontainer.png"));
 
         public final ResourceLocation location;
@@ -45,7 +48,9 @@ public class GUIChest extends GuiContainer {
         STEEL(184, 238, ResourceList.STEEL, IronChestType.STEEL),
         CRYSTAL(238, 256, ResourceList.DIAMOND, IronChestType.CRYSTAL),
         OBSIDIAN(238, 256, ResourceList.DIAMOND, IronChestType.OBSIDIAN),
-        DIRTCHEST9000(184, 184, ResourceList.DIRT, IronChestType.DIRTCHEST9000);
+        DIRTCHEST9000(184, 184, ResourceList.DIRT, IronChestType.DIRTCHEST9000),
+        NETHERITE(292, 256, ResourceList.NETHERITE, IronChestType.NETHERITE),
+        DARKSTEEL(292, 256, ResourceList.DARKSTEEL, IronChestType.DARKSTEEL);
 
         private final int xSize;
         private final int ySize;
@@ -64,9 +69,14 @@ public class GUIChest extends GuiContainer {
             return new ContainerIronChest(player, chest, mainType, xSize, ySize);
         }
 
-        public static GUIChest buildGUI(IronChestType type, IInventory playerInventory,
+        public static GUIChest buildGUI(int chestTypeIndex, IInventory playerInventory,
                 TileEntityIronChest chestInventory) {
-            return new GUIChest(values()[chestInventory.getType().ordinal()], playerInventory, chestInventory);
+            for (GUI gui : values()) {
+                if (gui.mainType.ordinal() == chestTypeIndex) {
+                    return new GUIChest(gui, playerInventory, chestInventory);
+                }
+            }
+            return null;
         }
     }
 
@@ -89,8 +99,21 @@ public class GUIChest extends GuiContainer {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         // new "bind tex"
         this.mc.getTextureManager().bindTexture(type.guiResourceList.location);
+
+        if (type == GUI.NETHERITE || type == GUI.DARKSTEEL) {
+            final Tessellator tessellator = Tessellator.instance;
+            tessellator.startDrawingQuads();
+            tessellator.addVertexWithUV(guiLeft, guiTop, 0, 0.0, 0.0);
+            tessellator.addVertexWithUV(guiLeft, guiTop + ySize, 0, 0.0, 1.0);
+            tessellator.addVertexWithUV(guiLeft + xSize, guiTop + ySize, 0, 1.0, 1.0);
+            tessellator.addVertexWithUV(guiLeft + xSize, guiTop, 0, 1.0, 0.0);
+            tessellator.draw();
+            return;
+        }
+
         int x = (width - xSize) / 2;
         int y = (height - ySize) / 2;
         drawTexturedModalRect(x, y, 0, 0, xSize, ySize);
+
     }
 }

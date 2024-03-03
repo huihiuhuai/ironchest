@@ -7,6 +7,7 @@
  ******************************************************************************/
 package cpw.mods.ironchest;
 
+import static cpw.mods.ironchest.IronChest.ENABLE_STEEL_CHESTS;
 import static net.minecraftforge.common.util.ForgeDirection.DOWN;
 import static net.minecraftforge.common.util.ForgeDirection.UP;
 
@@ -213,9 +214,36 @@ public class BlockIronChest extends BlockContainer {
     @SideOnly(Side.CLIENT)
     public void getSubBlocks(Item par1, CreativeTabs par2CreativeTabs, List par3List) {
         for (IronChestType type : IronChestType.values()) {
-            if (type.isValidForCreativeMode()) {
-                par3List.add(new ItemStack(this, 1, type.ordinal()));
+
+            if (!type.isValidForCreativeMode()) {
+                continue;
             }
+            switch (type) {
+                case STEEL -> {
+                    if (ENABLE_STEEL_CHESTS) {
+                        par3List.add(new ItemStack(this, 1, type.ordinal()));
+                    }
+                }
+                case SILVER -> {
+                    if (ENABLE_STEEL_CHESTS) {
+                        continue;
+                    }
+                    par3List.add(new ItemStack(this, 1, type.ordinal()));
+                }
+                case DARKSTEEL -> {
+                    if (IronChest.ENABLE_DARK_STEEL_CHESTS) {
+                        par3List.add(new ItemStack(this, 1, type.ordinal()));
+                    }
+                }
+                case NETHERITE -> {
+                    if (IronChest.ENABLE_DARK_STEEL_CHESTS) {
+                        continue;
+                    }
+                    par3List.add(new ItemStack(this, 1, type.ordinal()));
+                }
+                default -> par3List.add(new ItemStack(this, 1, type.ordinal()));
+            }
+
         }
     }
 

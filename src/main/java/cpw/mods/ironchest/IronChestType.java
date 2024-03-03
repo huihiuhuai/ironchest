@@ -21,7 +21,6 @@ import net.minecraft.nbt.NBTTagByte;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
-import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -44,6 +43,12 @@ public enum IronChestType {
             TileEntityObsidianChest.class, "mmmm2mmmm"),
     DIRTCHEST9000(1, 1, false, "Dirt Chest 9000", "dirtchest.png", 7, Arrays.asList("dirt"), TileEntityDirtChest.class,
             Item.getItemFromBlock(Blocks.dirt), "mmmmCmmmm"),
+    NETHERITE(135, 15, true, "Netherite Chest", "netheritechest.png", 2, Arrays.asList("ingotNetherite"),
+            TileEntityNetheriteChest.class, "OOOmPmOOO", "OOOO6Ommm"),
+    DARKSTEEL(135, 15, true, "Dark Steel Chest", "darksteelchest.png", 2, Arrays.asList("ingotDarkSteel"),
+            TileEntityDarkSteelChest.class, "OOOmPmOOO", "OOOO4Ommm"),
+    SILVER(72, 9, false, "Silver Chest", "silverchest.png", 4, Arrays.asList("ingotSilver"),
+            TileEntitySilverChest.class, "mmmm3mmmm", "mGmG0GmGm"),
     WOOD(0, 0, false, "", "", -1, Arrays.asList("plankWood"), null);
 
     final int size;
@@ -103,6 +108,10 @@ public enum IronChestType {
     public static void registerBlocksAndRecipes(BlockIronChest blockResult) {
         Object previous = "chestWood";
         for (IronChestType typ : values()) {
+            if ((typ == NETHERITE) && IronChest.ENABLE_DARK_STEEL_CHESTS) {
+                continue;
+            }
+
             generateRecipesForType(blockResult, previous, typ);
             ItemStack chest = new ItemStack(blockResult, 1, typ.ordinal());
             if (typ.isValidForCreativeMode()) {
@@ -115,7 +124,7 @@ public enum IronChestType {
     }
 
     public static void generateRecipesForType(BlockIronChest blockResult, Object previousTier, IronChestType type) {
-        if (Loader.isModLoaded("dreamcraft")) {
+        if (IronChest.ENABLE_DARK_STEEL_CHESTS) {
             return;
         }
         for (String recipe : type.recipes) {
@@ -127,12 +136,15 @@ public enum IronChestType {
                 // spotless:off
                 addRecipe(new ItemStack(blockResult, 1, type.ordinal()), recipeSplit,
                         'm', mainMaterial, 'P', previousTier, /* previous tier of chest */
-                        'G', "blockGlass", 'C', "chestWood",
+                        'G', "blockGlass", 'C', "chestWood", 'O', Blocks.obsidian,
                         '0', new ItemStack(blockResult, 1, 0), /* Iron Chest */
                         '1', new ItemStack(blockResult, 1, 1), /* Gold Chest */
                         '2', new ItemStack(blockResult, 1, 2), /* Diamond Chest */
                         '3', new ItemStack(blockResult, 1, 3), /* Copper Chest */
-                        '4', new ItemStack(blockResult, 1, 4) /* Silver Chest */
+                        '4', new ItemStack(blockResult, 1, 4), /* Silver Chest */
+                        '5', new ItemStack(blockResult, 1, 10), /* Netherite Chest */
+                        '6', new ItemStack(blockResult, 1, 7)  /* Obsidian Chest */
+
                 );
                 // spotless:on
             }
@@ -182,7 +194,7 @@ public enum IronChestType {
     }
 
     public boolean isExplosionResistant() {
-        return this == OBSIDIAN;
+        return this == OBSIDIAN || this == NETHERITE;
     }
 
     @SideOnly(Side.CLIENT)

@@ -7,26 +7,21 @@
  ******************************************************************************/
 package cpw.mods.ironchest;
 
-import static cpw.mods.ironchest.IronChestType.COPPER;
-import static cpw.mods.ironchest.IronChestType.CRYSTAL;
-import static cpw.mods.ironchest.IronChestType.DIAMOND;
-import static cpw.mods.ironchest.IronChestType.GOLD;
-import static cpw.mods.ironchest.IronChestType.IRON;
-import static cpw.mods.ironchest.IronChestType.OBSIDIAN;
-import static cpw.mods.ironchest.IronChestType.STEEL;
-import static cpw.mods.ironchest.IronChestType.WOOD;
+import static cpw.mods.ironchest.IronChest.ENABLE_STEEL_CHESTS;
+import static cpw.mods.ironchest.IronChestType.*;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.config.Configuration;
 
-import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public enum ChestChangerType {
 
     IRONGOLD(IRON, GOLD, "ironGoldUpgrade", "Iron to Gold Chest Upgrade", "mmm", "msm", "mmm"),
     GOLDDIAMOND(GOLD, DIAMOND, "goldDiamondUpgrade", "Gold to Diamond Chest Upgrade", "GGG", "msm", "GGG"),
+    COPPERSILVER(COPPER, SILVER, "copperSilverUpgrade", "Copper to Silver Chest Upgrade", "mmm", "msm", "mmm"),
+    SILVERGOLD(SILVER, GOLD, "silverGoldUpgrade", "Silver to Gold Chest Upgrade", "mGm", "GsG", "mGm"),
     COPPERSTEEL(COPPER, STEEL, "copperSteelUpgrade", "Copper to Steel Chest Upgrade", "mmm", "msm", "mmm"),
     STEELGOLD(STEEL, GOLD, "steelGoldUpgrade", "Steel to Gold Chest Upgrade", "mGm", "GsG", "mGm"),
     COPPERIRON(COPPER, IRON, "copperIronUpgrade", "Copper to Iron Chest Upgrade", "mGm", "GsG", "mGm"),
@@ -34,7 +29,11 @@ public enum ChestChangerType {
     WOODIRON(WOOD, IRON, "woodIronUpgrade", "Normal chest to Iron Chest Upgrade", "mmm", "msm", "mmm"),
     WOODCOPPER(WOOD, COPPER, "woodCopperUpgrade", "Normal chest to Copper Chest Upgrade", "mmm", "msm", "mmm"),
     DIAMONDOBSIDIAN(DIAMOND, OBSIDIAN, "diamondObsidianUpgrade", "Diamond to Obsidian Chest Upgrade", "mmm", "mGm",
-            "mmm");
+            "mmm"),
+    OBSIDIANNETHERITE(OBSIDIAN, NETHERITE, "obsidianNetheriteUpgrade", "Obsidian to Netherite Chest Upgrade", "OOO",
+            "msm", "OOO"),
+    DIAMONDDARKSTEEL(DIAMOND, DARKSTEEL, "diamondDarkSteelUpgrade", "Diamond to Dark Steel Chest Upgrade", "OOO", "msm",
+            "OOO");
 
     private final IronChestType source;
     private final IronChestType target;
@@ -82,12 +81,37 @@ public enum ChestChangerType {
 
     public static void buildItems(Configuration cfg) {
         for (ChestChangerType type : values()) {
-            type.buildItem(cfg);
+            switch (type) {
+                case STEELGOLD, COPPERSTEEL -> {
+                    if (ENABLE_STEEL_CHESTS) {
+                        type.buildItem(cfg);
+                    }
+                }
+                case SILVERGOLD, COPPERSILVER -> {
+                    if (ENABLE_STEEL_CHESTS) {
+                        continue;
+                    }
+                    type.buildItem(cfg);
+                }
+                case DIAMONDDARKSTEEL -> {
+                    if (IronChest.ENABLE_DARK_STEEL_CHESTS) {
+                        type.buildItem(cfg);
+                    }
+                }
+                case OBSIDIANNETHERITE -> {
+                    if (IronChest.ENABLE_DARK_STEEL_CHESTS) {
+                        continue;
+                    }
+                    type.buildItem(cfg);
+                }
+                default -> type.buildItem(cfg);
+            }
+
         }
     }
 
     public static void generateRecipes() {
-        if (Loader.isModLoaded("dreamcraft")) {
+        if (IronChest.isGTNHLoaded) {
             return;
         }
         for (ChestChangerType item : values()) {

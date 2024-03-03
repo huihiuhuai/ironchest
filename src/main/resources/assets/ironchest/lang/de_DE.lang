@@ -1,8 +1,11 @@
 tile.ironchest:IRON.name=Eisentruhe
 tile.ironchest:GOLD.name=Goldtruhe
 tile.ironchest:DIAMOND.name=Diamanttruhe
+tile.ironchest:NETHERITE.name=Netherittruhe
+tile.ironchest:DARKSTEEL.name=Dunkelstahltruhe
 tile.ironchest:COPPER.name=Kupfertruhe
 tile.ironchest:STEEL.name=Stahltruhe
+tile.ironchest:SILVER.name=Silbertruhe
 tile.ironchest:CRYSTAL.name=Kristalltruhe
 tile.ironchest:OBSIDIAN.name=Obsidiantruhe
 tile.ironchest:DIRTCHEST9000.name=DirtChest 9000!
@@ -11,11 +14,15 @@ item.ironchest:IRONGOLD.name=Eisen-zu-Goldtruhen-Upgrade
 item.ironchest:GOLDDIAMOND.name=Gold-zu-Diamanttruhen-Upgrade
 item.ironchest:COPPERSTEEL.name=Kupfer-zu-Stahltruhen-Upgrade
 item.ironchest:STEELGOLD.name=Stahl-zu-Goldtruhen-Upgrade
+item.ironchest:COPPERSILVER.name=Kupfer-zu-Silbertruhen-Upgrade
+item.ironchest:SILVERGOLD.name=Silber-zu-Goldtruhen-Upgrade
 item.ironchest:COPPERIRON.name=Kupfer-zu-Eisentruhen-Upgrade
 item.ironchest:DIAMONDCRYSTAL.name=Diamant-zu-Kristalltruhen-Upgrade
 item.ironchest:WOODIRON.name=Holz-zu-Eisentruhen-Upgrade
 item.ironchest:WOODCOPPER.name=Holz-zu-Kupfertruhen-Upgrade
 item.ironchest:DIAMONDOBSIDIAN.name=Diamant-zu-Obsidiantruhen-Upgrade
+item.ironchest:OBSIDIANNETHERITE.name=Obsidian-zu-Netherittruhen-Upgrade
+item.ironchest:DIAMONDDARKSTEEL.name=Diamant-zu-Dunkelstahltruhen-Upgrade
 
 book.ironchest:dirtchest9000.title=Wie du deine neue DirtChest 9000 nutzt!
 book.ironchest:dirtchest9000.page1=Willkommen zu Ihrer neuen DirtChest 9000! Wir hoffen, dass Sie viele freudige Jahre genießen werden, wenn Sie Ihre Erd-Stacks in unserem nützlichen Speichergerät lagern.
