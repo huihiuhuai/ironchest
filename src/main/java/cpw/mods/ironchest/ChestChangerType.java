@@ -7,7 +7,6 @@
  ******************************************************************************/
 package cpw.mods.ironchest;
 
-import static cpw.mods.ironchest.IronChest.ENABLE_STEEL_CHESTS;
 import static cpw.mods.ironchest.IronChestType.*;
 
 import net.minecraft.init.Blocks;
@@ -33,7 +32,13 @@ public enum ChestChangerType {
     OBSIDIANNETHERITE(OBSIDIAN, NETHERITE, "obsidianNetheriteUpgrade", "Obsidian to Netherite Chest Upgrade", "OOO",
             "msm", "OOO"),
     DIAMONDDARKSTEEL(DIAMOND, DARKSTEEL, "diamondDarkSteelUpgrade", "Diamond to Dark Steel Chest Upgrade", "OOO", "msm",
-            "OOO");
+            "OOO"),
+    CRYSTALDARKSTEEL(CRYSTAL, DARKSTEEL, "crystalDarkSteelUpgrade", "Crystal to Dark Steel Chest Upgrade", "OOO", "msm",
+            "OOO"),
+    OBSIDIANDARKSTEEL(OBSIDIAN, DARKSTEEL, "obsidianDarkSteelUpgrade", "Obsidian to Dark Steel Chest Upgrade", "OOO",
+            "msm", "OOO"),
+    IRONSTEEL(IRON, STEEL, "ironSteelUpgrade", "Iron to Steel Chest Upgrade", "mGm", "GsG", "mGm"),
+    IRONSILVER(IRON, SILVER, "ironSilverUpgrade", "Iron to Silver Chest Upgrade", "mGm", "GsG", "mGm");
 
     private final IronChestType source;
     private final IronChestType target;
@@ -59,6 +64,10 @@ public enum ChestChangerType {
         return this.target.ordinal();
     }
 
+    public boolean isAllowed() {
+        return target.allowUpgradeFrom(source);
+    }
+
     public ItemChestChanger buildItem(Configuration cfg) {
         item = new ItemChestChanger(this);
         GameRegistry.registerItem(item, itemName);
@@ -81,32 +90,31 @@ public enum ChestChangerType {
 
     public static void buildItems(Configuration cfg) {
         for (ChestChangerType type : values()) {
-            switch (type) {
-                case STEELGOLD, COPPERSTEEL -> {
-                    if (ENABLE_STEEL_CHESTS) {
-                        type.buildItem(cfg);
+            if (type.isAllowed()) {
+                switch (type) {
+                    case STEELGOLD, COPPERSTEEL -> {
+                        if (IronChestType.STEEL.isEnabled()) {
+                            type.buildItem(cfg);
+                        }
                     }
-                }
-                case SILVERGOLD, COPPERSILVER -> {
-                    if (ENABLE_STEEL_CHESTS) {
-                        continue;
+                    case SILVERGOLD, COPPERSILVER -> {
+                        if (IronChestType.SILVER.isEnabled()) {
+                            type.buildItem(cfg);
+                        }
                     }
-                    type.buildItem(cfg);
-                }
-                case DIAMONDDARKSTEEL -> {
-                    if (IronChest.ENABLE_DARK_STEEL_CHESTS) {
-                        type.buildItem(cfg);
+                    case DIAMONDDARKSTEEL, CRYSTALDARKSTEEL, OBSIDIANDARKSTEEL -> {
+                        if (IronChestType.DARKSTEEL.isEnabled()) {
+                            type.buildItem(cfg);
+                        }
                     }
-                }
-                case OBSIDIANNETHERITE -> {
-                    if (IronChest.ENABLE_DARK_STEEL_CHESTS) {
-                        continue;
+                    case OBSIDIANNETHERITE -> {
+                        if (IronChestType.NETHERITE.isEnabled()) {
+                            type.buildItem(cfg);
+                        }
                     }
-                    type.buildItem(cfg);
+                    default -> type.buildItem(cfg);
                 }
-                default -> type.buildItem(cfg);
             }
-
         }
     }
 
@@ -115,7 +123,9 @@ public enum ChestChangerType {
             return;
         }
         for (ChestChangerType item : values()) {
-            item.addRecipes();
+            if (item.isAllowed()) {
+                item.addRecipes();
+            }
         }
     }
 }
